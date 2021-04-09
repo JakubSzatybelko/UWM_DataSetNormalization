@@ -20,11 +20,8 @@ namespace DataSetNormalization
             ConfingFile = confingFile;
         }
 
-        /// Uładnić KOD!!!!!!!!!!!!!!!!!!!
-        //Open+
-        //Normalize Rzutowanie zakresu Normalizacji
 
-        public void Normalize(int min=0,int max=1)
+        public void Normalize(int min = 0, int max = 1)
         {
             List<float[]> ListaKolumn = new List<float[]>();
             //lista lini zmaien na liste kolumn i stringi na floaty
@@ -86,7 +83,7 @@ namespace DataSetNormalization
                 {
                     if (ConfingFile.RepeatingDataIndex.Contains(j)) { continue; }
                     
-                    ListaLinii[i].Dane[j] = ListaKolumn[licznik][i].ToString("0.####");
+                    ListaLinii[i].Dane[j] = ListaKolumn[licznik][i].ToString("0.####").Replace(",", ".");
                     licznik++;
                 }
             }
@@ -112,12 +109,13 @@ namespace DataSetNormalization
         public void SaveConfing(string path)
         {
             string json = JsonConvert.SerializeObject(ConfingFile);
-            File.WriteAllText(path+".json", json);
+            File.WriteAllText(path, json);
         }
         public void OpenConfing(string path) {
-            string json = File.ReadAllText(path);
+            
             try
             {
+                string json = File.ReadAllText(path);
                 ConfingFile = JsonConvert.DeserializeObject<Confing>(json);
             }
             catch (Exception)
@@ -215,13 +213,59 @@ namespace DataSetNormalization
                 string StringBuild = "";
                 for (int j = 0; j < ListaLinii.Count; j++)
                 {
-                    StringBuild += ListaLinii[j].Dane[i].ToString();
+                    StringBuild += ListaLinii[j].Dane[i];
                     StringBuild += ConfingFile.speparator.ToString();
                 }
                 sw.WriteLine(StringBuild);
             }
             sw.Close();
         }
-        
+        public void DeleteColumn(int index)
+        {
+            if (ListaLinii[0].Dane.Length==1) return;
+             var ListaKolumn = new List<List<string>>();
+            for (int j = 0; j < ConfingFile.DataStetSize; j++)
+            {
+                List<string> kolumna = new List<string>();
+                for (int i = 0; i < ListaLinii.Count; i++)
+                {
+                    kolumna.Add(ListaLinii[i].Dane[j]);                    
+                }
+                ListaKolumn.Add(kolumna);
+            }
+            ListaKolumn.RemoveAt(index);
+            ListaLinii = new List<Linia>();
+            for (int i = 0; i < ListaKolumn[0].Count; i++)
+            {
+                string[] tmp = new string[ConfingFile.DataStetSize-1];
+                for (int j = 0; j < tmp.Length; j++)
+                {
+                    tmp[j] = ListaKolumn[j][i];
+                }
+                ListaLinii.Add(new Linia(tmp));
+            }
+
+            //update confinga
+            ConfingFile.DataStetSize--;
+
+            var tmp2 =ConfingFile.RepeatingDataIndex.ToList();///Są lepsze sposoby ale albo dają 1 linijke mniej albo są podatne na błędy
+            tmp2.Remove(index);
+            ConfingFile.RepeatingDataIndex = tmp2.ToArray();
+
+            var tmp1 = ConfingFile.SymbolicDataIndex.ToList();
+            tmp1.Remove(index);
+            ConfingFile.SymbolicDataIndex = tmp1.ToArray();
+
+            for (int i = 0; i < ConfingFile.SymbolicDataIndex.Length; i++)
+            {
+                if (ConfingFile.SymbolicDataIndex[i] > index) { ConfingFile.SymbolicDataIndex[i]--; }
+
+            }
+
+            for (int i = 0; i < ConfingFile.RepeatingDataIndex.Length; i++)
+            {
+                if (ConfingFile.RepeatingDataIndex[i] > index) { ConfingFile.RepeatingDataIndex[i]--; }
+            }
+        }
     }
 }

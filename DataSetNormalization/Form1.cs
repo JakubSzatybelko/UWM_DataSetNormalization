@@ -16,6 +16,7 @@ namespace DataSetNormalization
         public Form1()
         {
             InitializeComponent();
+            
         }
         private void TryToCreateDataSet() {
             if (GlobalVar.FilePath != null & GlobalVar.ConfingPath != null)
@@ -27,6 +28,7 @@ namespace DataSetNormalization
                     {
                         GlobalVar.Set.OpenConfing(GlobalVar.ConfingPath);
                         GlobalVar.Set.OpenTxtVerdical(GlobalVar.FilePath);
+
                         return;
                     }
                     catch (Exception)
@@ -48,7 +50,7 @@ namespace DataSetNormalization
                 }
 
             }
-
+            if (GlobalVar.Set != null) { numericUpDown1.Maximum = GlobalVar.Set.ConfingFile.DataStetSize-1; }
         }
         private void Load_File_Click(object sender, EventArgs e)
         {
@@ -64,10 +66,14 @@ namespace DataSetNormalization
         private void button2_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
-            var path = openFileDialog1.FileName;
-            GlobalVar.ConfingPath = path;
-            Config_File_Label.Text = openFileDialog1.SafeFileName;
-            TryToCreateDataSet();
+
+                var path = openFileDialog1.FileName;
+                GlobalVar.ConfingPath = path;
+                Config_File_Label.Text = openFileDialog1.SafeFileName;
+                TryToCreateDataSet();
+               
+ 
+
 
         }
 
@@ -147,6 +153,38 @@ namespace DataSetNormalization
         {
             var CreateConfigForm = new Form3();
             CreateConfigForm.Show();
+        }
+
+        private void Add_Linie_butt_Click(object sender, EventArgs e)
+        {
+            if (GlobalVar.Set!=null)
+            {
+                var AddLineForm = new DodajWierszForm();
+                AddLineForm.Show();
+            }
+            
+        }
+
+        private void Remove_col_butt_Click(object sender, EventArgs e)
+        {
+            if (GlobalVar.Set!=null)
+            {
+                GlobalVar.Set.DeleteColumn(Convert.ToInt32(numericUpDown1.Value));
+                Acept_Click(sender,e);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (GlobalVar.Set!=null)
+            {
+                saveFileDialog1.Filter = "Json| *.Json";
+                saveFileDialog1.DefaultExt = "Json";
+                saveFileDialog1.ShowDialog();
+                var path = saveFileDialog1.FileName;
+                if (path != "")
+                    GlobalVar.Set.SaveConfing(path);
+            }
         }
     }
 }

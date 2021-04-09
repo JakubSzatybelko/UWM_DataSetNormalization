@@ -43,6 +43,11 @@ namespace DataSetNormalization
             this.File_name_label = new System.Windows.Forms.Label();
             this.Config_File_Label = new System.Windows.Forms.Label();
             this.Normalize_Ex_Butt = new System.Windows.Forms.Button();
+            this.Remove_col_butt = new System.Windows.Forms.Button();
+            this.Add_Linie_butt = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // Load_File
@@ -83,9 +88,9 @@ namespace DataSetNormalization
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(606, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 28);
+            this.label1.Size = new System.Drawing.Size(88, 28);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Preview";
+            this.label1.Text = "Podgląd";
             // 
             // Acept
             // 
@@ -93,7 +98,7 @@ namespace DataSetNormalization
             this.Acept.Name = "Acept";
             this.Acept.Size = new System.Drawing.Size(97, 44);
             this.Acept.TabIndex = 4;
-            this.Acept.Text = "View_Preview";
+            this.Acept.Text = "Podgląd";
             this.Acept.UseVisualStyleBackColor = true;
             this.Acept.Click += new System.EventHandler(this.Acept_Click);
             // 
@@ -165,11 +170,52 @@ namespace DataSetNormalization
             this.Normalize_Ex_Butt.UseVisualStyleBackColor = true;
             this.Normalize_Ex_Butt.Click += new System.EventHandler(this.Normalize_Ex_Butt_Click);
             // 
+            // Remove_col_butt
+            // 
+            this.Remove_col_butt.Location = new System.Drawing.Point(278, 220);
+            this.Remove_col_butt.Name = "Remove_col_butt";
+            this.Remove_col_butt.Size = new System.Drawing.Size(97, 44);
+            this.Remove_col_butt.TabIndex = 12;
+            this.Remove_col_butt.Text = "Usuń kolumnę";
+            this.Remove_col_butt.UseVisualStyleBackColor = true;
+            this.Remove_col_butt.Click += new System.EventHandler(this.Remove_col_butt_Click);
+            // 
+            // Add_Linie_butt
+            // 
+            this.Add_Linie_butt.Location = new System.Drawing.Point(278, 270);
+            this.Add_Linie_butt.Name = "Add_Linie_butt";
+            this.Add_Linie_butt.Size = new System.Drawing.Size(97, 44);
+            this.Add_Linie_butt.TabIndex = 13;
+            this.Add_Linie_butt.Text = "Dodaj wiersz";
+            this.Add_Linie_butt.UseVisualStyleBackColor = true;
+            this.Add_Linie_butt.Click += new System.EventHandler(this.Add_Linie_butt_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(235, 233);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(37, 23);
+            this.numericUpDown1.TabIndex = 14;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(128, 311);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(98, 46);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Zapisz Plik Konfiguracyjny";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 369);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.Add_Linie_butt);
+            this.Controls.Add(this.Remove_col_butt);
             this.Controls.Add(this.Normalize_Ex_Butt);
             this.Controls.Add(this.Config_File_Label);
             this.Controls.Add(this.File_name_label);
@@ -184,6 +230,7 @@ namespace DataSetNormalization
             this.Controls.Add(this.Load_File);
             this.Name = "Form1";
             this.Text = "Najlepszy Program Do normalizacji Danych";
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -205,6 +252,10 @@ namespace DataSetNormalization
         private System.Windows.Forms.Label File_name_label;
         private System.Windows.Forms.Label Config_File_Label;
         private System.Windows.Forms.Button Normalize_Ex_Butt;
+        private System.Windows.Forms.Button Remove_col_butt;
+        private System.Windows.Forms.Button Add_Linie_butt;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
