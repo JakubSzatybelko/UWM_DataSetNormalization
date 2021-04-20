@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataSetNormalization
 {
-    class Confing
+    public class Confing
     {
         public char speparator;
         public int DataStetSize;

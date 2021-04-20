@@ -47,6 +47,7 @@ namespace DataSetNormalization
             this.Add_Linie_butt = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
+            this.Knn_button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -207,11 +208,22 @@ namespace DataSetNormalization
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // Knn_button
+            // 
+            this.Knn_button.Location = new System.Drawing.Point(804, 318);
+            this.Knn_button.Name = "Knn_button";
+            this.Knn_button.Size = new System.Drawing.Size(97, 46);
+            this.Knn_button.TabIndex = 16;
+            this.Knn_button.Text = "K-nn";
+            this.Knn_button.UseVisualStyleBackColor = true;
+            this.Knn_button.Click += new System.EventHandler(this.Knn_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 369);
+            this.Controls.Add(this.Knn_button);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.Add_Linie_butt);
@@ -256,6 +268,7 @@ namespace DataSetNormalization
         private System.Windows.Forms.Button Add_Linie_butt;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Knn_button;
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -72,6 +73,7 @@ namespace DataSetNormalization
             if (min < max)
             {
                 var i = 0;
+                string save = JsonConvert.SerializeObject(GlobalVar.Set.ConfingFile);
                 GlobalVar.Set.ConfingFile.RepeatingDataIndex = new int[checkedListBox1.Items.Count-checkedListBox1.CheckedItems.Count];
                 foreach (var item in checkedListBox1.Items)
                 {
@@ -82,7 +84,7 @@ namespace DataSetNormalization
                     }
                 }
                 GlobalVar.Set.Normalize(min, max);
-                
+                GlobalVar.Set.ConfingFile = JsonConvert.DeserializeObject<Confing>(save);
                 RefreshPreview();
             }
         }

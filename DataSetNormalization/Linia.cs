@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace DataSetNormalization
 {
-    class Linia
+   public class Linia
     {
         ///obiekt = Linia 
             public string[] Dane;

@@ -48,7 +48,7 @@ namespace DataSetNormalization
             int[] Skip = new int[SkipItemsCount];
             for (int i = 0; i < SkipItemsCount; i++)
             {
-                Symbolic[i] = int.Parse(checkedListBox2.CheckedItems[i].ToString());
+                Skip[i] = int.Parse(checkedListBox2.CheckedItems[i].ToString());
             }
 
             //////////sprawdzanie Sepratora

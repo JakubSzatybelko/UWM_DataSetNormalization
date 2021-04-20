@@ -186,5 +186,12 @@ namespace DataSetNormalization
                     GlobalVar.Set.SaveConfing(path);
             }
         }
+
+        private void Knn_button_Click(object sender, EventArgs e)
+        {
+            List<double> odgl=Knn_algorithm.CalculateDistaneEuqides(GlobalVar.Set, GlobalVar.Set.ListaLinii[0]);
+            odgl.Sort();
+
+        }
     }
 }

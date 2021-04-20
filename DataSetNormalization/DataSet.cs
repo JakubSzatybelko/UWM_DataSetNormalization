@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace DataSetNormalization
 {
-    class DataSet
+   public class DataSet
     {
         public List<Linia> ListaLinii;
         public Confing ConfingFile;
@@ -42,7 +42,7 @@ namespace DataSetNormalization
                     var AtualnaWartosc = ListaLinii[j].Dane[i];
                     float liczba = 0;
                     if (AtualnaWartosc.Contains(".")) { AtualnaWartosc = AtualnaWartosc.Replace('.', ','); }
-                    if (ConfingFile.SymbolicDataIndex.Contains(i)) { liczba = przypisz[AtualnaWartosc]; }
+                    if (ConfingFile.SymbolicDataIndex.Contains(i)& przypisz.ContainsKey(AtualnaWartosc)) { liczba = przypisz[AtualnaWartosc]; }
                     else {
                         try
                         {
