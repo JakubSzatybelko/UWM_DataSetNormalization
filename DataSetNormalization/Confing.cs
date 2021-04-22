@@ -8,19 +8,31 @@ namespace DataSetNormalization
 {
     public class Confing
     {
-        public char speparator;
+        ///^^^^^^^^ MUST HAVE
+        public char Speparator;
         public int DataStetSize;
         public int[] SymbolicDataIndex;
-        public  int[] RepeatingDataIndex;
-        public Dictionary<int, int[]> MinMaxValues;
-
-        public Confing(char speparator, int dataStetSize, int[] symbolicDataIndex, int[] repeatingDataIndex, Dictionary<int, int[]> minMaxValues)
+        public int[] SkipValuesIndex;
+        public int DecysionIndex;
+        public int[] ColumnsToDelete;
+        ///Po normalizacji
+        public bool IsNormalized;
+        public Dictionary<string, float[]>[] DiconaryOfNormalizedSymbols;
+        public float[,] AfterNormalizationNumberInfo;
+        public float[,] BeforeNormalizationNumberInfo;
+        public bool UpdatedConfig = false;
+        public Confing(char speparator, int dataStetSize, int[] symbolicDataIndex, int[] skipValuesIndex, int decysionIndex)
         {
-            this.speparator = speparator;
+            Speparator = speparator;
             DataStetSize = dataStetSize;
             SymbolicDataIndex = symbolicDataIndex;
-            RepeatingDataIndex = repeatingDataIndex;
-            MinMaxValues = minMaxValues;
+            SkipValuesIndex = skipValuesIndex;
+            DecysionIndex = decysionIndex;
         }
+
+        
+
+
+
     }
 }

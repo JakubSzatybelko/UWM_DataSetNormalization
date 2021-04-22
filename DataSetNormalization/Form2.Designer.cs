@@ -41,7 +41,12 @@ namespace DataSetNormalization
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.Save_butt = new System.Windows.Forms.Button();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -98,7 +103,7 @@ namespace DataSetNormalization
             // checkedListBox2
             // 
             this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Location = new System.Drawing.Point(335, 142);
+            this.checkedListBox2.Location = new System.Drawing.Point(317, 142);
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(100, 148);
             this.checkedListBox2.TabIndex = 6;
@@ -106,11 +111,11 @@ namespace DataSetNormalization
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(244, 124);
+            this.label4.Location = new System.Drawing.Point(233, 124);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(294, 15);
+            this.label4.Size = new System.Drawing.Size(285, 15);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Podaj Indexy Danych Które Nie Podlegają Normalizacji";
+            this.label4.Text = "Podaj Indexy Danych Niepodlegających Normalizacji";
             // 
             // Save_butt
             // 
@@ -122,11 +127,48 @@ namespace DataSetNormalization
             this.Save_butt.UseVisualStyleBackColor = true;
             this.Save_butt.Click += new System.EventHandler(this.Save_butt_Click);
             // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(317, 29);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(100, 23);
+            this.numericUpDown2.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(302, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(137, 15);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Index kolumny z Decyzją";
+            // 
+            // checkedListBox3
+            // 
+            this.checkedListBox3.FormattingEnabled = true;
+            this.checkedListBox3.Location = new System.Drawing.Point(582, 142);
+            this.checkedListBox3.Name = "checkedListBox3";
+            this.checkedListBox3.Size = new System.Drawing.Size(120, 148);
+            this.checkedListBox3.TabIndex = 11;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(544, 124);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(191, 15);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Podaj Indexy Kolumn do Usuniecia";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 450);
+            this.ClientSize = new System.Drawing.Size(752, 450);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.checkedListBox3);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.Save_butt);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.checkedListBox2);
@@ -139,6 +181,7 @@ namespace DataSetNormalization
             this.Name = "Form2";
             this.Text = "Creator Plików Configuracujnych";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -157,5 +200,9 @@ namespace DataSetNormalization
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button Save_butt;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckedListBox checkedListBox3;
+        private System.Windows.Forms.Label label6;
     }
 }

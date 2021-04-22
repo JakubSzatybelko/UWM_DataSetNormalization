@@ -16,7 +16,8 @@ namespace DataSetNormalization
         public Form1()
         {
             InitializeComponent();
-            
+            label2.Text = "";
+
         }
         private void TryToCreateDataSet() {
             if (GlobalVar.FilePath != null & GlobalVar.ConfingPath != null)
@@ -50,7 +51,18 @@ namespace DataSetNormalization
                 }
 
             }
-            if (GlobalVar.Set != null) { numericUpDown1.Maximum = GlobalVar.Set.ConfingFile.DataStetSize-1; }
+            ///usunięcie kolumn i ustawienie usuwania kolumn
+            if (GlobalVar.Set != null&&GlobalVar.Set.ConfingFile!=null) {
+                numericUpDown1.Maximum = GlobalVar.Set.ConfingFile.DataStetSize-1;
+                if (GlobalVar.Set.ConfingFile.ColumnsToDelete != null)
+                {
+                    for (int i = 0; i < GlobalVar.Set.ConfingFile.ColumnsToDelete.Length; i++)
+                    {
+                        GlobalVar.Set.DeleteColumn(GlobalVar.Set.ConfingFile.ColumnsToDelete[i]);
+                    }
+                }
+            }
+
         }
         private void Load_File_Click(object sender, EventArgs e)
         {
@@ -93,7 +105,7 @@ namespace DataSetNormalization
                     var txt = "";
                     foreach (var item in GlobalVar.Set.ListaLinii)
                     {
-                        txt += item.ToString("-") + "\n";
+                        txt += item.ToString(" ") + "\n";
                     }
                     View_Data_Box.Text = txt;
                 }
@@ -104,10 +116,22 @@ namespace DataSetNormalization
         {
             if (GlobalVar.Set!=null)
             {
+                if (GlobalVar.Set.ConfingFile.IsNormalized&&GlobalVar.Set.ConfingFile.UpdatedConfig)
+                {
+                    DialogResult dialogResult= MessageBox.Show("Data-Set już znormalizowany, ponowne znormalizowanie moze zmienić dane w Pliku konfugaracyjnym.\n" +
+                        "                             Czy chcesz zapisac plik?","Uwaga!!",MessageBoxButtons.YesNo,MessageBoxIcon.Warning);
+                    if (dialogResult==DialogResult.Yes)
+                    {
+                        button2_Click(sender, e);
+                    }
+                }
                 if (GlobalVar.Set.ListaLinii.Count != 0)
                 {
+
                     GlobalVar.Set.Normalize();
                     Acept_Click(sender, e);
+                    GlobalVar.Set.ConfingFile.UpdatedConfig = true;
+                    label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
                 }
             }
         }
@@ -153,6 +177,10 @@ namespace DataSetNormalization
         {
             var CreateConfigForm = new Form3();
             CreateConfigForm.Show();
+            if (GlobalVar.Set.ConfingFile.UpdatedConfig)
+            {
+                label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
+            }
         }
 
         private void Add_Linie_butt_Click(object sender, EventArgs e)
@@ -171,6 +199,8 @@ namespace DataSetNormalization
             {
                 GlobalVar.Set.DeleteColumn(Convert.ToInt32(numericUpDown1.Value));
                 Acept_Click(sender,e);
+                GlobalVar.Set.ConfingFile.UpdatedConfig = true;
+                label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
             }
         }
 
@@ -184,14 +214,27 @@ namespace DataSetNormalization
                 var path = saveFileDialog1.FileName;
                 if (path != "")
                     GlobalVar.Set.SaveConfing(path);
+                label2.Text = "";
+                GlobalVar.Set.ConfingFile.UpdatedConfig = false;
             }
         }
 
         private void Knn_button_Click(object sender, EventArgs e)
         {
-            List<double> odgl=Knn_algorithm.CalculateDistaneEuqides(GlobalVar.Set, GlobalVar.Set.ListaLinii[0]);
-            odgl.Sort();
+            var count = 0.0;
+            for (int i = 0; i < GlobalVar.Set.ListaLinii.Count; i++)
+            {
+                
+                var odgl = Knn_algorithm.Klasyfikuj(GlobalVar.Set, GlobalVar.Set.ListaLinii[i], 7, Metryki.Ekulides);//GlobalVar.Set, GlobalVar.Set.ListaLinii[0]
+                if (odgl == null || odgl != GlobalVar.Set.ListaLinii[i].Dane[GlobalVar.Set.ConfingFile.DecysionIndex])
+                {
+                    count++;
+                }
+            }
+            MessageBox.Show((1-(count/GlobalVar.Set.ListaLinii.Count)).ToString());
 
+
+            
         }
     }
 }

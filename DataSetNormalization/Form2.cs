@@ -15,18 +15,21 @@ namespace DataSetNormalization
             InitializeComponent();
             textBox1.MaxLength = 1;
             Save_butt.Enabled = false;
+            numericUpDown2.Maximum = 0;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             checkedListBox1.Items.Clear();
             checkedListBox2.Items.Clear();
+            checkedListBox3.Items.Clear();
             for (int i = 0; i < numericUpDown1.Value; i++)
             {
                 checkedListBox1.Items.Add(i.ToString());
                 checkedListBox2.Items.Add(i.ToString());
+                checkedListBox3.Items.Add(i.ToString());
             }
-
+            numericUpDown2.Maximum = numericUpDown1.Value-1;
             if (numericUpDown1.Value>=1) Save_butt.Enabled = true;
             else Save_butt.Enabled = false;
         }
@@ -36,7 +39,7 @@ namespace DataSetNormalization
             
             var CheckedItemsCount = checkedListBox1.CheckedItems.Count;
             var SkipItemsCount = checkedListBox2.CheckedItems.Count;
-
+            var DeleteItemsCount = checkedListBox2.CheckedItems.Count;
 
             ///////////////////Syobliczne Wartości
             int[] Symbolic = new int[CheckedItemsCount];
@@ -50,7 +53,12 @@ namespace DataSetNormalization
             {
                 Skip[i] = int.Parse(checkedListBox2.CheckedItems[i].ToString());
             }
-
+            ////////Usuwane Wartosci
+            int[] Delete = new int[DeleteItemsCount];
+            for (int i = 0; i < DeleteItemsCount; i++)
+            {
+                Delete[i] = int.Parse(checkedListBox3.CheckedItems[i].ToString());
+            }
             //////////sprawdzanie Sepratora
 
             if (!String.IsNullOrEmpty(textBox1.Text))
@@ -62,7 +70,8 @@ namespace DataSetNormalization
                 if (path != "")
                 {
                     char Separator = char.Parse(textBox1.Text);
-                    Confing con = new Confing(Separator, checkedListBox1.Items.Count, Symbolic, Skip, null);
+                    Confing con = new Confing(Separator, checkedListBox1.Items.Count, Symbolic, Skip, Decimal.ToInt32(numericUpDown2.Value));
+                    con.ColumnsToDelete = Delete;
                     var Tmp = new DataSet(new List<Linia>(), con);
                     Tmp.SaveConfing(path);
                     this.Close();

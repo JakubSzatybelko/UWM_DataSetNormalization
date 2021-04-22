@@ -23,15 +23,26 @@ namespace DataSetNormalization
 
         public void Normalize(int min = 0, int max = 1)
         {
+                //Knn Extended
+            var SlownikWystapien = new List<Dictionary<string, float[]>>();
+            //tworzenie słownika wystąpien
+            var DanePoNormalizacji = new float[ConfingFile.DataStetSize, 3];
+            //dane liczbowych po normalizacji
+            var DanePrzedNormalizacja = new float[ConfingFile.DataStetSize, 2];
+            //dane liczbowych PRZED normalizacja
+
+
+
+            //basic
             List<float[]> ListaKolumn = new List<float[]>();
             //lista lini zmaien na liste kolumn i stringi na floaty
 
             for (int i = 0; i < ConfingFile.DataStetSize; i++)
             {
-                if (ConfingFile.RepeatingDataIndex.Contains(i)){continue;}
+                if (ConfingFile.SkipValuesIndex.Contains(i)){continue;}
 
                 float[] Kolumna = new float[ListaLinii.Count];
-                Dictionary<string, float> przypisz = new Dictionary<string, float>();
+                Dictionary<string, float[]> przypisz = new Dictionary<string, float[]>();
                 
                 if (ConfingFile.SymbolicDataIndex.Contains(i)) {
                     przypisz = GenerateDiconary(i);
@@ -39,14 +50,18 @@ namespace DataSetNormalization
 
                 for (int j = 0; j < ListaLinii.Count; j++)
                 {
-                    var AtualnaWartosc = ListaLinii[j].Dane[i];
+                    var AktualnaWartosc = ListaLinii[j].Dane[i];
                     float liczba = 0;
-                    if (AtualnaWartosc.Contains(".")) { AtualnaWartosc = AtualnaWartosc.Replace('.', ','); }
-                    if (ConfingFile.SymbolicDataIndex.Contains(i)& przypisz.ContainsKey(AtualnaWartosc)) { liczba = przypisz[AtualnaWartosc]; }
+                    
+                    if (ConfingFile.SymbolicDataIndex.Contains(i)& przypisz.ContainsKey(AktualnaWartosc)) { 
+                        liczba = przypisz[AktualnaWartosc][0];
+                        przypisz[AktualnaWartosc][1]++;//większamy licznik wystąpień
+                    }
                     else {
                         try
                         {
-                            liczba = float.Parse(AtualnaWartosc);
+                            if (AktualnaWartosc.Contains(".")) { AktualnaWartosc = AktualnaWartosc.Replace('.', ','); }
+                            liczba = float.Parse(AktualnaWartosc);
                         }
                         catch (System.FormatException)
                         {
@@ -59,19 +74,43 @@ namespace DataSetNormalization
                     Kolumna[j] = liczba;                    
                 }
                 ListaKolumn.Add(Kolumna);
+                ///info danych przed normalizacja
+                if (!ConfingFile.SkipValuesIndex.Contains(i) && !ConfingFile.SymbolicDataIndex.Contains(i))
+                {                   
+                    DanePrzedNormalizacja[i, 0] = Kolumna.Min();
+                    DanePrzedNormalizacja[i, 1] = Kolumna.Max();
+                }
+
+                ///
+                SlownikWystapien.Add(przypisz);
             }
             foreach (var item in ListaKolumn)
             {
                 var SetMax = item.Max();
                 var SetMin = item.Min();
                 for (int i = 0; i < item.Length; i++)
-                {           
+                {              
                     item[i] = (item[i] - SetMin) / (SetMax - SetMin);
                     //extended
                     item[i] = ((max - min) * item[i]) + min;
                 }
             }
+            //info danych po noramlizacji
+            for (int i = 0; i < ListaKolumn.Count; i++)
+            {
+                if (!ConfingFile.SkipValuesIndex.Contains(i) && !ConfingFile.SymbolicDataIndex.Contains(i))
+                {
+                    DanePoNormalizacji[i, 0] = ListaKolumn[i].Average();
+                    DanePoNormalizacji[i, 1] = ListaKolumn[i].Min();
+                    DanePoNormalizacji[i, 2] = ListaKolumn[i].Max();
+                }
+            }
+            //
             ColumnsToLines(ListaKolumn);
+            ConfingFile.IsNormalized = true;
+            ConfingFile.DiconaryOfNormalizedSymbols = SlownikWystapien.ToArray();
+            ConfingFile.AfterNormalizationNumberInfo = DanePoNormalizacji;
+            ConfingFile.BeforeNormalizationNumberInfo = DanePrzedNormalizacja;
         }
 
         private void ColumnsToLines(List<float[]> ListaKolumn)
@@ -81,16 +120,16 @@ namespace DataSetNormalization
                 var licznik = 0;
                 for (int j = 0; j < ConfingFile.DataStetSize; j++)
                 {
-                    if (ConfingFile.RepeatingDataIndex.Contains(j)) { continue; }
+                    if (ConfingFile.SkipValuesIndex.Contains(j)) { continue; }
                     
                     ListaLinii[i].Dane[j] = ListaKolumn[licznik][i].ToString("0.####").Replace(",", ".");
                     licznik++;
                 }
             }
         }
-        private Dictionary<string, float> GenerateDiconary(int indexKolumny)
+        private Dictionary<string, float[]> GenerateDiconary(int indexKolumny)
         {
-            Dictionary<string, float> przypisz = new Dictionary<string, float>();
+            Dictionary<string, float[]> przypisz = new Dictionary<string, float[]>();
             HashSet<string> hash = new HashSet<string>();
 
             for (int p = 0; p < ListaLinii.Count; p++)
@@ -101,7 +140,7 @@ namespace DataSetNormalization
             float licznik = 0;
             foreach (var item in hash)
             {
-                przypisz.Add(item, licznik);
+                przypisz.Add(item, new float[2] { licznik, 0 }) ;
                 licznik++;
             }
             return przypisz;
@@ -133,9 +172,9 @@ namespace DataSetNormalization
                 var lines = File.ReadAllLines(path);
                 foreach (var line in lines)
                 {
-                    if (!line.Contains("?") & line.Split(ConfingFile.speparator).Length == ConfingFile.DataStetSize)
+                    if (!line.Contains("?") & line.Split(ConfingFile.Speparator).Length == ConfingFile.DataStetSize)
                     {
-                        ListaLinii.Add(new Linia(line.Split(ConfingFile.speparator)));
+                        ListaLinii.Add(new Linia(line.Split(ConfingFile.Speparator)));
                     }
 
                 }
@@ -167,7 +206,7 @@ namespace DataSetNormalization
                     List<string[]> kolumna = new List<string[]>();
                     if (!line.Contains("?") & lines.Length == ConfingFile.DataStetSize)
                     {
-                        kolumna.Add(line.Split(ConfingFile.speparator));
+                        kolumna.Add(line.Split(ConfingFile.Speparator));
                     }
                     ListaKolumn.Add(kolumna);
                 }
@@ -196,7 +235,7 @@ namespace DataSetNormalization
             var sw = File.AppendText(path);
             foreach (var item in ListaLinii)
             {
-                sw.WriteLine(item.ToString(ConfingFile.speparator.ToString()));
+                sw.WriteLine(item.ToString(ConfingFile.Speparator.ToString()));
             }
             sw.Close();
         }
@@ -214,7 +253,7 @@ namespace DataSetNormalization
                 for (int j = 0; j < ListaLinii.Count; j++)
                 {
                     StringBuild += ListaLinii[j].Dane[i];
-                    StringBuild += ConfingFile.speparator.ToString();
+                    StringBuild += ConfingFile.Speparator.ToString();
                 }
                 sw.WriteLine(StringBuild);
             }
@@ -247,10 +286,10 @@ namespace DataSetNormalization
 
             //update confinga
             ConfingFile.DataStetSize--;
-
-            var tmp2 =ConfingFile.RepeatingDataIndex.ToList();///Są lepsze sposoby ale albo dają 1 linijke mniej albo są podatne na błędy
+            ConfingFile.DecysionIndex--;
+            var tmp2 =ConfingFile.SkipValuesIndex.ToList();///Są lepsze sposoby ale albo dają 1 linijke mniej albo są podatne na błędy
             tmp2.Remove(index);
-            ConfingFile.RepeatingDataIndex = tmp2.ToArray();
+            ConfingFile.SkipValuesIndex = tmp2.ToArray();
 
             var tmp1 = ConfingFile.SymbolicDataIndex.ToList();
             tmp1.Remove(index);
@@ -262,9 +301,9 @@ namespace DataSetNormalization
 
             }
 
-            for (int i = 0; i < ConfingFile.RepeatingDataIndex.Length; i++)
+            for (int i = 0; i < ConfingFile.SkipValuesIndex.Length; i++)
             {
-                if (ConfingFile.RepeatingDataIndex[i] > index) { ConfingFile.RepeatingDataIndex[i]--; }
+                if (ConfingFile.SkipValuesIndex[i] > index) { ConfingFile.SkipValuesIndex[i]--; }
             }
         }
     }

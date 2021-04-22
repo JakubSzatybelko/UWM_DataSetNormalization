@@ -74,17 +74,18 @@ namespace DataSetNormalization
             {
                 var i = 0;
                 string save = JsonConvert.SerializeObject(GlobalVar.Set.ConfingFile);
-                GlobalVar.Set.ConfingFile.RepeatingDataIndex = new int[checkedListBox1.Items.Count-checkedListBox1.CheckedItems.Count];
+                GlobalVar.Set.ConfingFile.SkipValuesIndex = new int[checkedListBox1.Items.Count-checkedListBox1.CheckedItems.Count];
                 foreach (var item in checkedListBox1.Items)
                 {
                     if (!checkedListBox1.CheckedItems.Contains(item))
                     {
-                        GlobalVar.Set.ConfingFile.RepeatingDataIndex[i] = int.Parse(item.ToString());
+                        GlobalVar.Set.ConfingFile.SkipValuesIndex[i] = int.Parse(item.ToString());
                         i++;
                     }
                 }
                 GlobalVar.Set.Normalize(min, max);
                 GlobalVar.Set.ConfingFile = JsonConvert.DeserializeObject<Confing>(save);
+                GlobalVar.Set.ConfingFile.UpdatedConfig = true;              
                 RefreshPreview();
             }
         }

@@ -48,6 +48,7 @@ namespace DataSetNormalization
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.button1 = new System.Windows.Forms.Button();
             this.Knn_button = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -218,11 +219,21 @@ namespace DataSetNormalization
             this.Knn_button.UseVisualStyleBackColor = true;
             this.Knn_button.Click += new System.EventHandler(this.Knn_button_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(24, 371);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(312, 15);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 369);
+            this.ClientSize = new System.Drawing.Size(972, 395);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Knn_button);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.numericUpDown1);
@@ -269,6 +280,7 @@ namespace DataSetNormalization
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Knn_button;
+        private System.Windows.Forms.Label label2;
     }
 }
 
