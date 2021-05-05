@@ -52,14 +52,17 @@ namespace DataSetNormalization
 
             }
             ///usunięcie kolumn i ustawienie usuwania kolumn
-            if (GlobalVar.Set != null&&GlobalVar.Set.ConfingFile!=null) {
+            if (GlobalVar.Set != null&&GlobalVar.Set.ConfingFile!=null&& GlobalVar.Set.ListaLinii.Count!=0) {
                 numericUpDown1.Maximum = GlobalVar.Set.ConfingFile.DataStetSize-1;
                 if (GlobalVar.Set.ConfingFile.ColumnsToDelete != null)
                 {
                     for (int i = 0; i < GlobalVar.Set.ConfingFile.ColumnsToDelete.Length; i++)
                     {
                         GlobalVar.Set.DeleteColumn(GlobalVar.Set.ConfingFile.ColumnsToDelete[i]);
+                        
+                       
                     }
+                    GlobalVar.Set.ConfingFile.ColumnsToDelete = null;
                 }
             }
 
@@ -177,10 +180,7 @@ namespace DataSetNormalization
         {
             var CreateConfigForm = new Form3();
             CreateConfigForm.Show();
-            if (GlobalVar.Set.ConfingFile.UpdatedConfig)
-            {
-                label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
-            }
+            label2.Text = "Wykryto zmiane, zalecane zapisanie pliku konfigracyjnego";
         }
 
         private void Add_Linie_butt_Click(object sender, EventArgs e)
@@ -221,20 +221,20 @@ namespace DataSetNormalization
 
         private void Knn_button_Click(object sender, EventArgs e)
         {
-            var count = 0.0;
-            for (int i = 0; i < GlobalVar.Set.ListaLinii.Count; i++)
+            if (GlobalVar.Set!=null)
             {
-                
-                var odgl = Knn_algorithm.Klasyfikuj(GlobalVar.Set, GlobalVar.Set.ListaLinii[i], 7, Metryki.Ekulides);//GlobalVar.Set, GlobalVar.Set.ListaLinii[0]
-                if (odgl == null || odgl != GlobalVar.Set.ListaLinii[i].Dane[GlobalVar.Set.ConfingFile.DecysionIndex])
+                if (GlobalVar.Set.ConfingFile.SymbolicDataIndex.Length == 0|| GlobalVar.Set.ConfingFile.IsNormalized)
                 {
-                    count++;
+                    var from = new Knn_Form();
+                    from.Show();
                 }
+                else
+                {
+                    MessageBox.Show("Data-Set zawiera dane symboliczne, Znormalizuj dane zanim przejdziesz dalej");
+                }
+                
             }
-            MessageBox.Show((1-(count/GlobalVar.Set.ListaLinii.Count)).ToString());
 
-
-            
         }
     }
 }

@@ -39,7 +39,7 @@ namespace DataSetNormalization
             
             var CheckedItemsCount = checkedListBox1.CheckedItems.Count;
             var SkipItemsCount = checkedListBox2.CheckedItems.Count;
-            var DeleteItemsCount = checkedListBox2.CheckedItems.Count;
+            var DeleteItemsCount = checkedListBox3.CheckedItems.Count;
 
             ///////////////////Syobliczne Wartości
             int[] Symbolic = new int[CheckedItemsCount];

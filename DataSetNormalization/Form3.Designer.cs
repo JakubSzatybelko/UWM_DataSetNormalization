@@ -38,6 +38,7 @@ namespace DataSetNormalization
             this.label3 = new System.Windows.Forms.Label();
             this.Normalize_Extended_button = new System.Windows.Forms.Button();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
@@ -126,11 +127,22 @@ namespace DataSetNormalization
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(125, 126);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(219, 19);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "Nie Zmieniaj Pliku Konfiguracyjnego";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 253);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.Normalize_Extended_button);
             this.Controls.Add(this.label3);
@@ -160,5 +172,6 @@ namespace DataSetNormalization
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button Normalize_Extended_button;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

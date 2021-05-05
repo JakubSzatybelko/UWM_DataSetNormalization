@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -28,7 +29,11 @@ namespace DataSetNormalization
             {
                 if (Array.Exists(GlobalVar.Set.ConfingFile.SymbolicDataIndex, element => element == i))
                 {
-                    stringbuild += "a,";
+                    if (GlobalVar.Set.ConfingFile.IsNormalized && i!=GlobalVar.Set.ConfingFile.DecysionIndex)
+                        stringbuild += GlobalVar.Set.ConfingFile.DiconaryOfNormalizedSymbols[i].Keys.First()+",";
+                    else
+                        stringbuild += "a,";
+                    
                 }
                 else
                 {

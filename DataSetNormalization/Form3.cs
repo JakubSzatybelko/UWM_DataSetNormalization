@@ -84,9 +84,14 @@ namespace DataSetNormalization
                     }
                 }
                 GlobalVar.Set.Normalize(min, max);
-                GlobalVar.Set.ConfingFile = JsonConvert.DeserializeObject<Confing>(save);
-                GlobalVar.Set.ConfingFile.UpdatedConfig = true;              
-                RefreshPreview();
+                if (checkBox1.Checked)
+                {
+                    GlobalVar.Set.ConfingFile = JsonConvert.DeserializeObject<Confing>(save);
+                }
+                GlobalVar.Set.ConfingFile.UpdatedConfig = true;
+                GlobalVar.Set.ConfingFile.IsNormalized = true;
+
+               RefreshPreview();
             }
         }
         private void RefreshPreview()

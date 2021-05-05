@@ -176,10 +176,8 @@ namespace DataSetNormalization
                     {
                         ListaLinii.Add(new Linia(line.Split(ConfingFile.Speparator)));
                     }
-
                 }
             }
-
             
         }
         public void OpenJson(string path)
